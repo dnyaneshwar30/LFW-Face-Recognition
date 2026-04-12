@@ -1,0 +1,16 @@
+# Ignore Python cache and virtual environments
+__pycache__/
+*.pyc
+venv/
+.env
+
+# Protect Privacy - Do NOT upload user images or the trained model
+dataset/
+my_face/
+unknown_faces/
+*.keras
+*.h5
+
+# OS generated files
+.DS_Store
+Thumbs.db
