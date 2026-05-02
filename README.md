@@ -1,30 +1,53 @@
-# High-Accuracy Face Recognition with LFW Dataset
+# LFW Face Recognition & Personal Face Lock System
 
-This repository contains a high-accuracy machine learning model for facial recognition using the Labeled Faces in the Wild (LFW) dataset. The original dataset and challenge details can be found on Kaggle.
+> *Last Updated: 2026-05-05 18:32:17 IST*
 
-## Overview
+This repository contains two machine learning projects based on Face Recognition technologies:
+1. **Multi-Class Celebrity Recognition (Original)** - A Jupyter Notebook demonstrating transfer learning on the Labeled Faces in the Wild (LFW) dataset.
+2. **Personal Face Lock System (New!)** - A set of Python scripts that use your local webcam to capture your face, train a highly specialized binary classification model, and act as a secure, real-time "Face Lock" for your computer.
 
-The model leverages the pre-trained `MobileNetV2` architecture, fine-tuning its top layers to extract powerful features for face classification. It uses deep learning and data augmentation to improve accuracy past the capabilities of simpler classification pipelines (such as PCA + SVM) and targets a higher robust accuracy rate.
+---
 
-### Features
-- **Transfer Learning:** Built on `MobileNetV2` with ImageNet weights.
-- **Data Augmentation:** Increases accuracy and prevents overfitting by dynamically generating varied images during training (random rotations, zooms, horizontal flips).
-- **Automated Versioning:** Saves each run's model and logs metrics like accuracy, number of classes, and epochs.
-- **Visual Plots:** Automatically plots training vs. validation accuracy for model evaluation.
+## Part 1: Celebrity Recognition (Original)
+The `face_recognition.ipynb` notebook is designed to run in Google Colab. It uses `MobileNetV2` to classify and recognize various famous public figures from the LFW dataset. 
 
-## Requirements
+---
 
-This project is built to run easily in a Jupyter notebook environment such as Google Colab.
+## Part 2: Personal Face Lock System
+This feature allows you to build a personalized, real-time lock mechanism using your own webcam. 
 
-- **Kaggle Account:** To download the `jessicali9530/lfw-dataset`, you need your `kaggle.json` API token. 
+> [!IMPORTANT]
+> **Privacy First:** The `.gitignore` file in this repository is explicitly configured to prevent your personal photos (`dataset/`) and your trained model (`*.keras`) from being uploaded to GitHub. Your face data remains 100% private and secure on your local machine.
 
-## How to Run
+### Installation
+To run the Face Lock system locally, you need to install the required Python dependencies:
+```bash
+pip install tensorflow opencv-python numpy scikit-learn
+```
 
-1. Open `face_recognition.ipynb` in Google Colab or your local Jupyter environment.
-2. Ensure you have your `kaggle.json` file ready. When prompted by the notebook, upload it to download the dataset.
-3. Run all cells. The notebook will:
-   - Configure the dataset.
-   - Run the preprocessing and filtering logic.
-   - Begin training the neural network.
-   - Save the trained high-accuracy model as an `.h5` file in the `models/` folder.
-   - Log the training process details in the `logs/` folder.
+### How to Use
+
+#### 1. Capture Your Face Data
+Run the following script and look directly at your webcam. It will capture 200 pictures of you to build your personal dataset.
+```bash
+python 01_capture_face.py
+```
+*(Tip: Slowly move your head up, down, left, and right, and take your glasses off/on to help the AI learn your face better!)*
+
+#### 2. Train the Model
+Run the training script. This script automatically downloads "Unknown" faces from the LFW dataset to act as the negative class, and uses **Data Augmentation** to prevent overfitting. It then fine-tunes MobileNetV2 to distinguish you from everyone else.
+```bash
+python 02_train_lock_model.py
+```
+
+#### 3. Test the Live Face Lock
+Once the model is trained, start the real-time webcam lock. It will display a green **"UNLOCKED"** box when it recognizes you, and a red **"LOCKED"** box if you step away or someone else steps in front of the camera.
+```bash
+python 03_face_lock.py
+```
+
+#### 4. (Bonus) Search a Photo
+Want to test the AI on a static image instead of a webcam? Provide a path to an image file, and this script will extract the faces and classify them!
+```bash
+python 04_search_face_image.py
+```
